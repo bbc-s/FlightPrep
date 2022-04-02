@@ -103,7 +103,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     PolylineOptions realline;
     List<String> myLine = new ArrayList<String>();
     FusedLocationProviderClient fusedLocationProviderClient;
-    LocationRequest locationRequest;
+    LocationRequest locationRequest = new LocationRequest();
     LocationCallback locationCallBack;
     private GoogleMap navigationMap;
 
@@ -155,7 +155,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         }, 3000);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -167,7 +166,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             default:
                 return;
         }
-
     }
 
     @Override
@@ -175,8 +173,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-            String rawFlightTimeCalc = sharedPreferences.getString("rawFlightTimeCalc", null);
-            String rawFinDistance = sharedPreferences.getString("rawFinDistance", null);
+            String rawFlightTimeCalc = sharedPreferences.getString(String.format(Locale.ENGLISH, "rawFlightTimeCalc"), null);
+            String rawFinDistance = sharedPreferences.getString(String.format(Locale.ENGLISH,"rawFinDistance"), null);
             Double rawAvgSpeed = Double.parseDouble(rawFinDistance) / Double.parseDouble(rawFlightTimeCalc);
 
             if (rawFinDistance == null || rawFlightTimeCalc == null) {
@@ -185,7 +183,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
             long ID = Long.parseLong(LastRouteID);
             dbh.deleteMyRoutesLocations(ID);
-            dbh.updateRoute(new Route(Long.parseLong(LastRouteID), from, to, stop1, stop2, stop3, stop4, stop5, rawFlightTimeCalc, String.valueOf(rawAvgSpeed), rawFinDistance));
+            dbh.updateRoute(new Route(Long.parseLong(LastRouteID), from, to, stop1, stop2, stop3, stop4, stop5, rawFlightTimeCalc, String.format(Locale.ENGLISH, String.valueOf(rawAvgSpeed)), rawFinDistance));
 
             Intent intentFlightActivity = new Intent(NavigationActivity.this, RouteInfoActivity.class);
             setResult(RESULT_CANCELED, intentFlightActivity);
@@ -216,8 +214,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 } else {
                     Toast.makeText(this, "This app requires permission to be granted in order to work properly", Toast.LENGTH_SHORT).show();
                     finish();
-                }
-                break;
+                } break;
         }
     }
 
@@ -271,7 +268,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
 
         navigationMap.animateCamera(CameraUpdateFactory.newLatLng(myLocation));
-
     }
 
     private void updateSpeed(Location location) {
@@ -399,7 +395,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         latTo = Double.parseDouble(latlngTo[0]);
         lngTo = Double.parseDouble(latlngTo[1]);
         latlngTo1 = new LatLng(latTo, lngTo);
-
     }
 
     private double distanceCalc() {
@@ -433,7 +428,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         return fin;
-
     }
 
     private void timeCalc() {
@@ -480,8 +474,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         addPolylinesPlan();
 
         addFlightMap();
-
-
     }
 
     private void addFlightMap() {
@@ -636,8 +628,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     private void endNavigation() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
-        String rawFlightTimeCalc = sharedPreferences.getString("rawFlightTimeCalc", null);
-        String rawFinDistance = sharedPreferences.getString("rawFinDistance", null);
+        String rawFlightTimeCalc = sharedPreferences.getString(String.format(Locale.ENGLISH, "rawFlightTimeCalc"), null);
+        String rawFinDistance = sharedPreferences.getString(String.format(Locale.ENGLISH,"rawFinDistance"), null);
         Double rawAvgSpeed = Double.parseDouble(rawFinDistance) / Double.parseDouble(rawFlightTimeCalc);
 
         if (rawFinDistance == null || rawFlightTimeCalc == null) {
