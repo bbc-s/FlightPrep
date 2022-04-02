@@ -131,7 +131,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
         addRouteVariable();
 
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -174,7 +173,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             super.onBackPressed();
             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
             String rawFlightTimeCalc = sharedPreferences.getString(String.format(Locale.ENGLISH, "rawFlightTimeCalc"), null);
-            String rawFinDistance = sharedPreferences.getString(String.format(Locale.ENGLISH,"rawFinDistance"), null);
+            String rawFinDistance = sharedPreferences.getString(String.format(Locale.ENGLISH, "rawFinDistance"), null);
             Double rawAvgSpeed = Double.parseDouble(rawFinDistance) / Double.parseDouble(rawFlightTimeCalc);
 
             if (rawFinDistance == null || rawFlightTimeCalc == null) {
@@ -214,7 +213,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 } else {
                     Toast.makeText(this, "This app requires permission to be granted in order to work properly", Toast.LENGTH_SHORT).show();
                     finish();
-                } break;
+                }
+                break;
         }
     }
 
@@ -249,7 +249,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         Double myLng = location.getLongitude();
         myLocation = new LatLng(myLat, myLng);
 
-
         if (myLatH != myLat && myLngH != myLng) {
             stopArrayList.add(myLat);
             stopArrayList.add(myLng);
@@ -266,16 +265,15 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         saveRouteData();
         addPolylinesReal();
 
-
         navigationMap.animateCamera(CameraUpdateFactory.newLatLng(myLocation));
     }
 
     private void updateSpeed(Location location) {
         if (location.hasSpeed()) {
             String mySpeed = String.valueOf(location.getSpeed());
-            Double mySpeedKt = Double.parseDouble(mySpeed) * 1.94384449; //getSpeed in m/s to kt
+            Double mySpeedKt = Double.parseDouble(mySpeed) * 1.94384449;
             if (mySpeedKt >= 2.0) {
-                String userSpeed = String.format(Locale.ENGLISH,"%.2f", mySpeedKt) + " kt";
+                String userSpeed = String.format(Locale.ENGLISH, "%.2f", mySpeedKt) + " kt";
                 tvSpeed.setText(userSpeed);
 
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -296,8 +294,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     private void updateAltitude(Location location) {
         if (location.hasAltitude()) {
             String myAltitude = String.valueOf(location.getAltitude());
-            Double myAltitudeFt = Double.parseDouble(myAltitude) * 3.28084; //getAltitude in m to ft
-            tvAltitude.setText(String.format(Locale.ENGLISH,"%.2f", myAltitudeFt) + " ft");
+            Double myAltitudeFt = Double.parseDouble(myAltitude) * 3.28084;
+            tvAltitude.setText(String.format(Locale.ENGLISH, "%.2f", myAltitudeFt) + " ft");
         } else {
             String myAltitude = "No available";
             tvAltitude.setText(myAltitude);
@@ -346,7 +344,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
         LastRouteID = sharedPreferences.getString("lastRouteID", null);
 
-
         String[] latlngFrom = from.split(",");
         latFrom = Double.parseDouble(latlngFrom[0]);
         lngFrom = Double.parseDouble(latlngFrom[1]);
@@ -364,7 +361,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             latStop2 = Double.parseDouble(latlngStop2[0]);
             lngStop2 = Double.parseDouble(latlngStop2[1]);
             latlngStop2_1 = new LatLng(latStop2, lngStop2);
-
         }
 
         if (stop3 != null) {
@@ -372,7 +368,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             latStop3 = Double.parseDouble(latlngStop3[0]);
             lngStop3 = Double.parseDouble(latlngStop3[1]);
             latlngStop3_1 = new LatLng(latStop3, lngStop3);
-
         }
 
         if (stop4 != null) {
@@ -380,7 +375,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             latStop4 = Double.parseDouble(latlngStop4[0]);
             lngStop4 = Double.parseDouble(latlngStop4[1]);
             latlngStop4_1 = new LatLng(latStop4, lngStop4);
-
         }
 
         if (stop5 != null) {
@@ -388,7 +382,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             latStop5 = Double.parseDouble(latlngStop5[0]);
             lngStop5 = Double.parseDouble(latlngStop5[1]);
             latlngStop5_1 = new LatLng(latStop5, lngStop5);
-
         }
 
         String[] latlngTo = to.split(",");
@@ -398,7 +391,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private double distanceCalc() {
-
         float[] results = new float[1];
 
         if (stopArrayList.size() != 4) {
@@ -415,7 +407,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             } else {
                 fin = fin + distance;
             }
-            String distFin = String.format(Locale.ENGLISH,"%.02f", fin / 1000); //m to km
+            String distFin = String.format(Locale.ENGLISH, "%.02f", fin / 1000); //m to km
             String userDistance = distFin + " km";
 
             tvDistToFin.setText(userDistance);
@@ -435,7 +427,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         long actualTime = System.currentTimeMillis();
         long flightTime = (actualTime - startTime);
 
-        String flightTimeCalc = (String.format(Locale.ENGLISH,"%dh %dm",
+        String flightTimeCalc = (String.format(Locale.ENGLISH, "%dh %dm",
                 TimeUnit.MILLISECONDS.toHours(flightTime),
                 TimeUnit.MILLISECONDS.toMinutes(flightTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(flightTime))
         ));
@@ -468,7 +460,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         }
         navigationMap.setMyLocationEnabled(true);
 
-
         addMarkers();
 
         addPolylinesPlan();
@@ -495,7 +486,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 }
             }
 
-
             private boolean checkTileExists(int x, int y, int zoom) {
                 int minZoom = 5;
                 int maxZoom = 11;
@@ -503,7 +493,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 return (zoom >= minZoom && zoom <= maxZoom);
             }
         };
-
 
         TileOverlay tileOverlay = navigationMap.addTileOverlay(new TileOverlayOptions()
                 .tileProvider(tileProvider));
@@ -514,13 +503,12 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 navigationMap.setMinZoomPreference(6.5f);
                 navigationMap.setMaxZoomPreference(11.9f);
                 LatLngBounds slovakiaBounds = new LatLngBounds(
-                        new LatLng(47.69, 16.74), // SW bounds
-                        new LatLng(49.64, 22.64)  // NE bounds
+                        new LatLng(47.69, 16.74),
+                        new LatLng(49.64, 22.64)
                 );
 
                 navigationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngFrom1, 11.9f));
                 navigationMap.setLatLngBoundsForCameraTarget(slovakiaBounds);
-
             }
         });
     }
@@ -628,7 +616,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
         String rawFlightTimeCalc = sharedPreferences.getString(String.format(Locale.ENGLISH, "rawFlightTimeCalc"), null);
-        String rawFinDistance = sharedPreferences.getString(String.format(Locale.ENGLISH,"rawFinDistance"), null);
+        String rawFinDistance = sharedPreferences.getString(String.format(Locale.ENGLISH, "rawFinDistance"), null);
         Double rawAvgSpeed = Double.parseDouble(rawFinDistance) / Double.parseDouble(rawFlightTimeCalc);
 
         if (rawFinDistance == null || rawFlightTimeCalc == null) {
@@ -638,7 +626,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         String flightTimeCalc = sharedPreferences.getString("flightTimeCalc", null);
         String userDistance = sharedPreferences.getString("userDistance", null);
         Double doubleAvgSpeed = rawAvgSpeed * 1.94384449;
-        String userAvgSpeed = String.format(Locale.ENGLISH,"%.2f", doubleAvgSpeed) + " kt";
+        String userAvgSpeed = String.format(Locale.ENGLISH, "%.2f", doubleAvgSpeed) + " kt";
 
         dbh.addMyRouteData(new MyRoutesData(1, LastRouteID, txtFrom, txtTo, txtStop1, txtStop2, txtStop3, txtStop4, txtStop5, rawFlightTimeCalc, rawFinDistance, String.valueOf(rawAvgSpeed), flightTimeCalc, userDistance, userAvgSpeed));
         dbh.updateRoute(new Route(Long.parseLong(LastRouteID), from, to, stop1, stop2, stop3, stop4, stop5, rawFlightTimeCalc, String.valueOf(rawAvgSpeed), rawFinDistance));

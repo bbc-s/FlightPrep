@@ -11,7 +11,6 @@ import androidx.preference.SwitchPreference;
 
 public class SettingsActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,16 +24,11 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle("Settings");
-
         }
-
-
     }
-
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         private SwitchPreference darkModeSwitch;
-
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -54,8 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-
         }
     }
 }

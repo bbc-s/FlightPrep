@@ -20,7 +20,6 @@ public class MyRoutesActivity extends AppCompatActivity {
     SimpleCursorAdapter cursorAdapter;
     ListView lv;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

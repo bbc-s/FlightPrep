@@ -102,17 +102,13 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
         mapView.getMapAsync((OnMapReadyCallback) this);
 
-
         addRouteVariable();
 
         distanceCalc();
         timeCalc();
 
         mapView.onCreate(savedInstanceState);
-
-
     }
-
 
     private void addRouteVariable() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -144,14 +140,12 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
         txtAltitude = sharedPreferences.getString("txtAltitude", null);
 
-
         String[] latlngFrom = from.split(",");
         latFrom = Double.parseDouble(latlngFrom[0]);
         lngFrom = Double.parseDouble(latlngFrom[1]);
         latlngFrom1 = new LatLng(latFrom, lngFrom);
         stopArrayList.add(latFrom);
         stopArrayList.add(lngFrom);
-
 
         if (stop1 != null) {
             String[] latlngStop1 = stop1.split(",");
@@ -169,7 +163,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
             latlngStop2_1 = new LatLng(latStop2, lngStop2);
             stopArrayList.add(latStop2);
             stopArrayList.add(lngStop2);
-
         }
 
         if (stop3 != null) {
@@ -179,7 +172,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
             latlngStop3_1 = new LatLng(latStop3, lngStop3);
             stopArrayList.add(latStop3);
             stopArrayList.add(lngStop3);
-
         }
 
         if (stop4 != null) {
@@ -189,7 +181,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
             latlngStop4_1 = new LatLng(latStop4, lngStop4);
             stopArrayList.add(latStop4);
             stopArrayList.add(lngStop4);
-
         }
 
         if (stop5 != null) {
@@ -199,7 +190,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
             latlngStop5_1 = new LatLng(latStop5, lngStop5);
             stopArrayList.add(latStop5);
             stopArrayList.add(lngStop5);
-
         }
 
         String[] latlngTo = to.split(",");
@@ -208,9 +198,7 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         latlngTo1 = new LatLng(latTo, lngTo);
         stopArrayList.add(latTo);
         stopArrayList.add(lngTo);
-
     }
-
 
     private double distanceCalc() {
         for (int i = 0; i < stopArrayList.size(); i += 2) {
@@ -234,12 +222,9 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         editor.apply();
 
         return fin;
-
     }
 
-
     private void timeCalc() {
-
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
         double distance = Double.parseDouble(sharedPreferences.getString("txtDistance", null)); //m to km
@@ -252,9 +237,7 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         String flightTime = hours + "h" + " " + minutes + "m";
 
         tvArrTime.setText(flightTime);
-
     }
-
 
     private void addFlightMap() {
         TileProvider tileProvider = new UrlTileProvider(512, 512) {
@@ -274,7 +257,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
                     throw new AssertionError(e);
                 }
             }
-
 
             private boolean checkTileExists(int x, int y, int zoom) {
                 int minZoom = 5;
@@ -319,11 +301,9 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
                         new LatLng(49.64, 22.64)  // NE bounds
                 );
                 routeMap.setLatLngBoundsForCameraTarget(slovakiaBounds);
-
             }
         });
     }
-
 
     private void addMarkers() {
         routeMap.addMarker(new MarkerOptions()
@@ -372,7 +352,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
-
     private void addPolylines() {
         PolylineOptions routeLine = new PolylineOptions();
 
@@ -406,7 +385,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         polyline.setColor(Color.BLUE);
     }
 
-
     @Override
     public void onClick(View v) {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -424,7 +402,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
                 editor.putString("lastRouteID", lastRouteID);
                 editor.apply();
-
             }
             break;
 
@@ -433,7 +410,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
                 dbh.saveRoute(new SavedRoutes(1, txtFrom, from, txtTo, to, txtStop1, stop1, txtStop2, stop2, txtStop3, stop3, txtStop4, stop4, txtStop5, stop5, txtSpeed, txtAltitude, txtDistance));
 
                 Toast.makeText(RouteInfoActivity.this, "Route saved", Toast.LENGTH_LONG).show();
-
             }
             break;
 
@@ -442,7 +418,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -450,7 +425,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         setResult(RESULT_CANCELED, intentFlightActivity);
         finish();
     }
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -469,13 +443,11 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         }
         routeMap.setMyLocationEnabled(true);
 
-
         addMarkers();
 
         addPolylines();
 
         addFlightMap();
-
     }
 
 
@@ -483,7 +455,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onStart() {
         super.onStart();
         mapView.onStart();
-
     }
 
     @Override

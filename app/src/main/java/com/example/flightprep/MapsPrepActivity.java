@@ -62,7 +62,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -87,9 +86,7 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
                 } catch (URISyntaxException | MalformedURLException e) {
                     e.printStackTrace();
                     throw new AssertionError(e);
-
                 }
-
             }
 
             private boolean checkTileExists(int x, int y, int zoom) {
@@ -128,7 +125,7 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
                 double lat = point.latitude;
                 double lng = point.longitude;
                 String routelatlng = lat + "," + lng;
-                locality = String.format(Locale.ENGLISH, "%.4f", lat) + "," + String.format(Locale.ENGLISH,"%.4f", lng);
+                locality = String.format(Locale.ENGLISH, "%.4f", lat) + "," + String.format(Locale.ENGLISH, "%.4f", lng);
 
                 Geocoder geocoder = new Geocoder(MapsPrepActivity.this, Locale.getDefault());
                 try {
@@ -144,7 +141,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
 
                     }
                 } catch (IOException e) {
-
                 }
 
                 Intent intentFlightActivity = new Intent(MapsPrepActivity.this, FlightActivity.class);
@@ -152,7 +148,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
                 intentFlightActivity.putExtra("routelallng", routelatlng);
                 setResult(RESULT_OK, intentFlightActivity);
                 finish();
-
             }
         });
     }
@@ -208,7 +203,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
-
     private void addRouteVariable() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
@@ -220,14 +214,12 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
         stop4 = sharedPreferences.getString("latlngStop4", null);
         stop5 = sharedPreferences.getString("latlngStop5", null);
 
-
         if (from != null) {
             String[] latlngFrom = from.split(",");
             latFrom = Double.parseDouble(latlngFrom[0]);
             lngFrom = Double.parseDouble(latlngFrom[1]);
             latlngFrom1 = new LatLng(latFrom, lngFrom);
         }
-
 
         if (stop1 != null) {
             String[] latlngStop1 = stop1.split(",");
@@ -275,7 +267,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
             latlngTo1 = new LatLng(latTo, lngTo);
         }
     }
-
 
     @Override
     public void onBackPressed() {

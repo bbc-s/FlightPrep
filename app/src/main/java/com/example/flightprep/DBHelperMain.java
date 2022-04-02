@@ -230,7 +230,7 @@ public class DBHelperMain extends SQLiteOpenHelper {
                 Database.Aircrafts.MAX_ALTITUDE + " , " +
                 Database.Aircrafts.MAX_RANGE +
                 " FROM " + Database.Aircrafts.TABLE_NAME +
-                " WHERE " + Database.Aircrafts.AIRCRAFT_ID + " = " + ID;;
+                " WHERE " + Database.Aircrafts.AIRCRAFT_ID + " = " + ID;
         Cursor c = db.rawQuery(myQuery, null);
         c.moveToFirst();
         db.close();
