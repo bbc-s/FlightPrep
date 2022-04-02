@@ -62,7 +62,7 @@ public class ListAircraftActivity extends AppCompatActivity {
                 long ID = c.getLong(c.getColumnIndex(Database.Aircrafts.AIRCRAFT_ID));
 
                 Intent intentSendAircraft = new Intent(ListAircraftActivity.this, FlightActivity.class);
-                String aname = c.getString(1)/* + ", " + c.getString(2)*/;
+                String aname = c.getString(1);
                 String aid = c.getString(0);
                 intentSendAircraft.putExtra("aname", aname);
                 intentSendAircraft.putExtra("aid", aid);

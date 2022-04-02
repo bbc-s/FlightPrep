@@ -217,7 +217,38 @@ public class DBHelperMain extends SQLiteOpenHelper {
         c.moveToFirst();
         db.close();
         return c;
+    }
 
+    public Cursor getSingleAircraftCursor(long ID) {
+        SQLiteDatabase db = getWritableDatabase();
+        String myQuery = "SELECT " +
+                Database.Aircrafts.AIRCRAFT_ID + " , " +
+                Database.Aircrafts.MANUFACTURER + " , " +
+                Database.Aircrafts.REG + " , " +
+                Database.Aircrafts.TYPE + " , " +
+                Database.Aircrafts.MAX_CRUISE_SPEED + " , " +
+                Database.Aircrafts.MAX_ALTITUDE + " , " +
+                Database.Aircrafts.MAX_RANGE +
+                " FROM " + Database.Aircrafts.TABLE_NAME +
+                " WHERE " + Database.Aircrafts.AIRCRAFT_ID + " = " + ID;;
+        Cursor c = db.rawQuery(myQuery, null);
+        c.moveToFirst();
+        db.close();
+        return c;
+    }
+
+    public void editAircraft(Aircraft a) {
+        ContentValues values = new ContentValues();
+        values.put(Database.Aircrafts.MANUFACTURER, a.getAircraft_manufacturer());
+        values.put(Database.Aircrafts.REG, a.getAircraft_reg());
+        values.put(Database.Aircrafts.TYPE, a.getAircraft_type());
+        values.put(Database.Aircrafts.MAX_CRUISE_SPEED, a.getAircraft_maxCruiseSpeed());
+        values.put(Database.Aircrafts.MAX_ALTITUDE, a.getAircraft_maxAltitude());
+        values.put(Database.Aircrafts.MAX_RANGE, a.getAircraft_maxRange());
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(Database.Aircrafts.TABLE_NAME, values, Database.Aircrafts.AIRCRAFT_ID + " = " + a.getID(), null);
+        db.close();
     }
 
 //endregion <---Aircraft

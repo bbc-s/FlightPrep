@@ -34,7 +34,6 @@ public class MyRoutesActivity extends AppCompatActivity {
         lv = findViewById(R.id.listMyRoutes);
 
         addCursorAdapter();
-
     }
 
     @Override
@@ -44,7 +43,6 @@ public class MyRoutesActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED, intentFlightActivity);
         finish();
     }
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -65,12 +63,6 @@ public class MyRoutesActivity extends AppCompatActivity {
         }
         return super.onContextItemSelected(item);
     }
-
-    /*private void loadData() {
-        dbh.getMyRoutesAsList();
-
-    }*/
-
 
     private void addCursorAdapter() {
         cursorAdapter = new SimpleCursorAdapter(this,
@@ -103,7 +95,6 @@ public class MyRoutesActivity extends AppCompatActivity {
 
         lv.setAdapter(cursorAdapter);
         registerForContextMenu(lv);
-
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

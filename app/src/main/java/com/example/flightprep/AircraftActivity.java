@@ -49,7 +49,7 @@ public class AircraftActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.longpressmenu1, menu);
+        getMenuInflater().inflate(R.menu.longpressmenu2, menu);
     }
 
     @Override
@@ -67,12 +67,22 @@ public class AircraftActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.Delete:
+            case R.id.Delete: {
                 Cursor c = ((SimpleCursorAdapter) lv.getAdapter()).getCursor();
                 long ID = c.getLong(c.getColumnIndex(Database.Aircrafts.AIRCRAFT_ID));
                 dbh.deleteAircraft(ID);
                 addCursorAdapter();
-                break;
+            } break;
+
+            case R.id.Edit: {
+                Cursor c = ((SimpleCursorAdapter) lv.getAdapter()).getCursor();
+                long ID = c.getLong(c.getColumnIndex(Database.Aircrafts.AIRCRAFT_ID));
+                Intent intentEditAircraft = new Intent(AircraftActivity.this, AddAircraftActivity.class);
+                intentEditAircraft.putExtra("aID", ID);
+                System.out.println("+-+-+-+-+-+-+--+"+ID);
+                startActivityForResult(intentEditAircraft, R.id.Edit);
+                return true;
+            }
 
         }
         return super.onContextItemSelected(item);
@@ -83,6 +93,12 @@ public class AircraftActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case R.id.menuAdd:
+                if (resultCode == RESULT_OK) {
+                    addCursorAdapter();
+                }
+                break;
+
+            case R.id.Edit:
                 if (resultCode == RESULT_OK) {
                     addCursorAdapter();
                 }

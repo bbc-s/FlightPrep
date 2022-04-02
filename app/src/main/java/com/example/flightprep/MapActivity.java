@@ -85,13 +85,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         mMap.setMyLocationEnabled(true);
 
-
         addFlightMap();
 
         if (routeID != null) {
             addMyRoutePolylines();
         }
-
     }
 
     private void addFlightMap() {
