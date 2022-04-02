@@ -22,7 +22,6 @@ public class AircraftActivity extends AppCompatActivity {
     DBHelperMain dbh = new DBHelperMain(this);
     SimpleCursorAdapter cursorAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,6 @@ public class AircraftActivity extends AppCompatActivity {
         }
 
         lv = findViewById(R.id.listAircrafts);
-
 
         addCursorAdapter();
     }
@@ -79,11 +77,9 @@ public class AircraftActivity extends AppCompatActivity {
                 long ID = c.getLong(c.getColumnIndex(Database.Aircrafts.AIRCRAFT_ID));
                 Intent intentEditAircraft = new Intent(AircraftActivity.this, AddAircraftActivity.class);
                 intentEditAircraft.putExtra("aID", ID);
-                System.out.println("+-+-+-+-+-+-+--+"+ID);
                 startActivityForResult(intentEditAircraft, R.id.Edit);
                 return true;
             }
-
         }
         return super.onContextItemSelected(item);
     }
@@ -127,7 +123,5 @@ public class AircraftActivity extends AppCompatActivity {
 
         lv.setAdapter(cursorAdapter);
         registerForContextMenu(lv);
-
     }
-
 }
