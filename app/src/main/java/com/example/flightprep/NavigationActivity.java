@@ -611,7 +611,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         if (polylineArrayList.size() != 2) {
             return;
         } else {
-
             realline.add(polylineArrayList.get(0));
             realline.add(polylineArrayList.get(1));
 
