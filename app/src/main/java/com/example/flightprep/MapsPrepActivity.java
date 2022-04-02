@@ -128,7 +128,7 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
                 double lat = point.latitude;
                 double lng = point.longitude;
                 String routelatlng = lat + "," + lng;
-                locality = String.format("%.4f", lat) + "," + String.format("%.4f", lng);
+                locality = String.format(Locale.ENGLISH, "%.4f", lat) + "," + String.format(Locale.ENGLISH,"%.4f", lng);
 
                 Geocoder geocoder = new Geocoder(MapsPrepActivity.this, Locale.getDefault());
                 try {

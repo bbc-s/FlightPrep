@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class StatsActivity extends AppCompatActivity {
@@ -65,27 +66,27 @@ public class StatsActivity extends AppCompatActivity {
     private void loadData() {
         Cursor cursor = dbh.getStats();
         if (cursor.getString(0) != null && cursor.getString(1) != null && cursor.getString(2) != null && cursor.getString(3) != null) {
-            String STRminTime = (String.format("%dh %dm",
+            String STRminTime = (String.format(Locale.ENGLISH,"%dh %dm",
                     TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(0))),
                     TimeUnit.SECONDS.toMinutes(Long.parseLong(cursor.getString(0))) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(0))))));
-            String STRmaxTime = (String.format("%dh %dm",
+            String STRmaxTime = (String.format(Locale.ENGLISH,"%dh %dm",
                     TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(1))),
                     TimeUnit.SECONDS.toMinutes(Long.parseLong(cursor.getString(1))) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(1))))));
-            String STRavgTime = (String.format("%dh %dm",
+            String STRavgTime = (String.format(Locale.ENGLISH,"%dh %dm",
                     TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(2))),
                     TimeUnit.SECONDS.toMinutes(Long.parseLong(cursor.getString(2))) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(2))))));
-            String STRtotalTime = (String.format("%dh %dm",
+            String STRtotalTime = (String.format(Locale.ENGLISH,"%dh %dm",
                     TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(3))),
                     TimeUnit.SECONDS.toMinutes(Long.parseLong(cursor.getString(3))) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(Long.parseLong(cursor.getString(3))))));
 
-            String STRminDistance = String.format("%.02f", Double.parseDouble(cursor.getString(4)) / 1000) + " km";
-            String STRmaxDistance = String.format("%.02f", Double.parseDouble(cursor.getString(5)) / 1000) + " km";
-            String STRavgDistance = String.format("%.02f", Double.parseDouble(cursor.getString(6)) / 1000) + " km";
-            String STRtotalDistance = String.format("%.02f", Double.parseDouble(cursor.getString(7)) / 1000) + " km";
+            String STRminDistance = String.format(Locale.ENGLISH,"%.02f", Double.parseDouble(cursor.getString(4)) / 1000) + " km";
+            String STRmaxDistance = String.format(Locale.ENGLISH,"%.02f", Double.parseDouble(cursor.getString(5)) / 1000) + " km";
+            String STRavgDistance = String.format(Locale.ENGLISH,"%.02f", Double.parseDouble(cursor.getString(6)) / 1000) + " km";
+            String STRtotalDistance = String.format(Locale.ENGLISH,"%.02f", Double.parseDouble(cursor.getString(7)) / 1000) + " km";
 
-            String STRminSpeed = String.format("%.2f", Double.parseDouble(cursor.getString(8))) + " kt";
-            String STRmaxSpeed = String.format("%.2f", Double.parseDouble(cursor.getString(9))) + " kt";
-            String STRavgSpeed = String.format("%.2f", Double.parseDouble(cursor.getString(10))) + " kt";
+            String STRminSpeed = String.format(Locale.ENGLISH,"%.2f", Double.parseDouble(cursor.getString(8))) + " kt";
+            String STRmaxSpeed = String.format(Locale.ENGLISH,"%.2f", Double.parseDouble(cursor.getString(9))) + " kt";
+            String STRavgSpeed = String.format(Locale.ENGLISH,"%.2f", Double.parseDouble(cursor.getString(10))) + " kt";
 
 
             minTime.setText(STRminTime);

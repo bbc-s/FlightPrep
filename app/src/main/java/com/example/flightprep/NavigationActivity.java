@@ -47,6 +47,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class NavigationActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
@@ -278,7 +279,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             String mySpeed = String.valueOf(location.getSpeed());
             Double mySpeedKt = Double.parseDouble(mySpeed) * 1.94384449; //getSpeed in m/s to kt
             if (mySpeedKt >= 2.0) {
-                String userSpeed = String.format("%.2f", mySpeedKt) + " kt";
+                String userSpeed = String.format(Locale.ENGLISH,"%.2f", mySpeedKt) + " kt";
                 tvSpeed.setText(userSpeed);
 
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -300,7 +301,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         if (location.hasAltitude()) {
             String myAltitude = String.valueOf(location.getAltitude());
             Double myAltitudeFt = Double.parseDouble(myAltitude) * 3.28084; //getAltitude in m to ft
-            tvAltitude.setText(String.format("%.2f", myAltitudeFt) + " ft");
+            tvAltitude.setText(String.format(Locale.ENGLISH,"%.2f", myAltitudeFt) + " ft");
         } else {
             String myAltitude = "No available";
             tvAltitude.setText(myAltitude);
@@ -419,7 +420,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             } else {
                 fin = fin + distance;
             }
-            String distFin = String.format("%.02f", fin / 1000); //m to km
+            String distFin = String.format(Locale.ENGLISH,"%.02f", fin / 1000); //m to km
             String userDistance = distFin + " km";
 
             tvDistToFin.setText(userDistance);
@@ -440,7 +441,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         long actualTime = System.currentTimeMillis();
         long flightTime = (actualTime - startTime);
 
-        String flightTimeCalc = (String.format("%dh %dm",
+        String flightTimeCalc = (String.format(Locale.ENGLISH,"%dh %dm",
                 TimeUnit.MILLISECONDS.toHours(flightTime),
                 TimeUnit.MILLISECONDS.toMinutes(flightTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(flightTime))
         ));
@@ -646,7 +647,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         String flightTimeCalc = sharedPreferences.getString("flightTimeCalc", null);
         String userDistance = sharedPreferences.getString("userDistance", null);
         Double doubleAvgSpeed = rawAvgSpeed * 1.94384449;
-        String userAvgSpeed = String.format("%.2f", doubleAvgSpeed) + " kt";
+        String userAvgSpeed = String.format(Locale.ENGLISH,"%.2f", doubleAvgSpeed) + " kt";
 
         dbh.addMyRouteData(new MyRoutesData(1, LastRouteID, txtFrom, txtTo, txtStop1, txtStop2, txtStop3, txtStop4, txtStop5, rawFlightTimeCalc, rawFinDistance, String.valueOf(rawAvgSpeed), flightTimeCalc, userDistance, userAvgSpeed));
         dbh.updateRoute(new Route(Long.parseLong(LastRouteID), from, to, stop1, stop2, stop3, stop4, stop5, rawFlightTimeCalc, String.valueOf(rawAvgSpeed), rawFinDistance));

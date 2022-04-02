@@ -38,6 +38,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -223,7 +224,7 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
             }
         }
 
-        String distFin = String.format("%.02f", fin / 1000);
+        String distFin = String.format(Locale.ENGLISH, "%.02f", fin / 1000);
 
         tvDistance.setText(distFin + " km");
 
@@ -241,7 +242,7 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 
-        double distance = Double.parseDouble(sharedPreferences.getString("txtDistance", null)) /**0.001*/; //m to km
+        double distance = Double.parseDouble(sharedPreferences.getString("txtDistance", null)); //m to km
         double spdKMH = Double.parseDouble(txtSpeed) * 1.85200; //kt to kmph
 
         double time = distance / spdKMH;
