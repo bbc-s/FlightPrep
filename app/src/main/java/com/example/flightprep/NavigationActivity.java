@@ -135,8 +135,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         handler.postDelayed(new Runnable() {
             public void run() {
                 locationRequest = LocationRequest.create()
-                        .setInterval(10000)
-                        .setFastestInterval(5000)
+                        .setInterval(1000)
+                        .setFastestInterval(500)
                         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                         .setMaxWaitTime(100);
 
@@ -258,9 +258,9 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             myLngH = myLng;
         }
 
-        updateSpeed(location);
         updateAltitude(location);
         distanceCalc();
+        updateSpeed(location);
         timeCalc();
         saveRouteData();
         addPolylinesReal();
@@ -269,15 +269,19 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void updateSpeed(Location location) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        String dist = sharedPreferences.getString("rawFinDistance", "0.0f");
+        float rawFinDistance = Float.parseFloat(dist);
+
         if (location.hasSpeed()) {
             String mySpeed = String.valueOf(location.getSpeed());
             Double mySpeedKt = Double.parseDouble(mySpeed) * 1.94384449;
-            if (mySpeedKt >= 2.0) {
+            if (mySpeedKt >= 2.0 || rawFinDistance >= 0.0f) {
                 String userSpeed = String.format(Locale.ENGLISH, "%.2f", mySpeedKt) + " kt";
                 tvSpeed.setText(userSpeed);
 
-                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("mySpeed", mySpeed);
                 editor.putString("userSpeed", userSpeed);
                 editor.apply();
@@ -561,6 +565,15 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void addPolylinesPlan() {
+
+        Location test1 = new Location(String.valueOf(latlngFrom1));
+        Location test2 = new Location(String.valueOf(latlngTo1));
+
+        if(test1.hasBearing()) {
+            System.out.println("11111111111111111111 "+test1.getBearing());
+            System.out.println("22222222222222222222 "+test2.getBearing());
+        }
+
         PolylineOptions routeLine = new PolylineOptions();
 
         routeLine.add(latlngFrom1);
