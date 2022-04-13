@@ -38,11 +38,8 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -87,7 +84,6 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
     List<Location> bearingArrayList = new ArrayList<>();
     List<Float> courseArrayList = new ArrayList<>();
     float fin = 0.0f;
-    private GoogleMap routeMap;
     Location fromCourse = new Location("fromCourse");
     Location stop1Course = new Location("stop1Course");
     Location stop2Course = new Location("stop2Course");
@@ -98,6 +94,7 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
     float bearing = 0.0f;
     float course = 0.0f;
     Location knownBearing;
+    private GoogleMap routeMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +113,7 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
         mapView = findViewById(R.id.mapView1);
 
-        mapView.getMapAsync((OnMapReadyCallback) this);
+        mapView.getMapAsync(this);
 
         addRouteVariable();
 
@@ -350,13 +347,13 @@ public class RouteInfoActivity extends AppCompatActivity implements OnMapReadyCa
         knownBearing = bearingArrayList.get(0);
 
         for (int i = 0; i <= 6; i++) {
-            if (i+1 < bearingArrayList.size()) {
+            if (i + 1 < bearingArrayList.size()) {
                 if (!String.valueOf(bearingArrayList.get(i)).contains("0.000000,0.000000")) {
                     knownBearing = bearingArrayList.get(i);
                 }
 
-                if (!String.valueOf(bearingArrayList.get(i+1)).contains("0.000000,0.000000")) {
-                    bearing = (knownBearing).bearingTo((bearingArrayList.get(i+1)));
+                if (!String.valueOf(bearingArrayList.get(i + 1)).contains("0.000000,0.000000")) {
+                    bearing = (knownBearing).bearingTo((bearingArrayList.get(i + 1)));
 
                     if (bearing < 0.0f) {
                         bearing = Math.abs(bearing);

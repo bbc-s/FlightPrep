@@ -108,7 +108,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest = new LocationRequest();
     LocationCallback locationCallBack;
-    private GoogleMap navigationMap;
     Location fromCourse = new Location("fromCourse");
     Location stop1Course = new Location("stop1Course");
     Location stop2Course = new Location("stop2Course");
@@ -119,7 +118,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     float bearing = 0.0f;
     float course = 0.0f;
     Location knownBearing;
-
+    private GoogleMap navigationMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -560,13 +559,13 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         knownBearing = bearingArrayList.get(0);
 
         for (int i = 0; i <= 6; i++) {
-            if (i+1 < bearingArrayList.size()) {
+            if (i + 1 < bearingArrayList.size()) {
                 if (!String.valueOf(bearingArrayList.get(i)).contains("0.000000,0.000000")) {
                     knownBearing = bearingArrayList.get(i);
                 }
 
-                if (!String.valueOf(bearingArrayList.get(i+1)).contains("0.000000,0.000000")) {
-                    bearing = (knownBearing).bearingTo((bearingArrayList.get(i+1)));
+                if (!String.valueOf(bearingArrayList.get(i + 1)).contains("0.000000,0.000000")) {
+                    bearing = (knownBearing).bearingTo((bearingArrayList.get(i + 1)));
 
                     if (bearing < 0.0f) {
                         bearing = Math.abs(bearing);
