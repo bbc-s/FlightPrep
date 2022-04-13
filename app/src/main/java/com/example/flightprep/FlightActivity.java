@@ -43,7 +43,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
     String txtSpeed = null;
     String txtAltitude = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +52,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
         if (actionBar != null) {
             actionBar.setTitle("Flight");
         }
-
 
         tv_dep = findViewById(R.id.txtDeparture);
         tv_arr = findViewById(R.id.txtArrival);
@@ -86,14 +84,12 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
         btnNxt.setOnClickListener(this);
         btnSavedRoutes.setOnClickListener(this);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
         editor.apply();
     }
-
 
     private void addRouteVariable() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -126,7 +122,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
 
         editor.apply();
 
-
         aircraft = sharedPreferences.getString("idAircraft", "");
 
         from = sharedPreferences.getString("latlngFrom", "");
@@ -156,18 +151,13 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                 TextUtils.isEmpty(txtAltitude) ||
                 TextUtils.isEmpty(aircraft)
         ) {
-
             Toast.makeText(FlightActivity.this, "Missing data, try again", Toast.LENGTH_LONG).show();
             return;
         } else {
-
-
             Intent intentNext = new Intent(FlightActivity.this, RouteInfoActivity.class);
             startActivityForResult(intentNext, R.id.btnNext);
-
         }
     }
-
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -222,7 +212,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                                 editor.putString("latlngStop5", null);
                             }
                             break;
-
                         }
                         editor.apply();
                         return true;
@@ -233,7 +222,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         switch (v.getId()) {
-
             case R.id.txtDeparture: {
                 Intent intentChooseAirport = new Intent(FlightActivity.this, ListAirportActivity.class);
                 startActivityForResult(intentChooseAirport, R.id.txtDeparture);
@@ -310,10 +298,8 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("addAircraft", addaircraft);
                     editor.putString("idAircraft", idaircraft);
                     editor.apply();
-
                 }
                 break;
-
 
             case R.id.txtDeparture:
                 if (resultCode == RESULT_OK) {
@@ -324,10 +310,8 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngFrom", from);
                     editor.putString("txtFrom", txtFrom);
                     editor.apply();
-
                 }
                 break;
-
 
             case R.id.txtArrival:
                 if (resultCode == RESULT_OK) {
@@ -338,7 +322,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngTo", to);
                     editor.putString("txtTo", txtTo);
                     editor.apply();
-
                 }
                 break;
 
@@ -351,7 +334,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngStop1", stop1);
                     editor.putString("txtStop1", txtStop1);
                     editor.apply();
-
                 }
                 break;
 
@@ -364,7 +346,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngStop2", stop2);
                     editor.putString("txtStop2", txtStop2);
                     editor.apply();
-
                 }
                 break;
 
@@ -377,7 +358,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngStop3", stop3);
                     editor.putString("txtStop3", txtStop3);
                     editor.apply();
-
                 }
                 break;
 
@@ -390,7 +370,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngStop4", stop4);
                     editor.putString("txtStop4", txtStop4);
                     editor.apply();
-
                 }
                 break;
 
@@ -403,7 +382,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngStop5", stop5);
                     editor.putString("txtStop5", txtStop5);
                     editor.apply();
-
                 }
                 break;
 
@@ -427,7 +405,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     stop4 = data.getStringExtra("stop4gps");
                     stop5 = data.getStringExtra("stop5gps");
 
-
                     editor.putString("txtFrom", txtFrom);
                     editor.putString("txtTo", txtTo);
                     editor.putString("txtStop1", txtStop1);
@@ -447,7 +424,6 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("latlngStop5", stop5);
                     editor.apply();
 
-
                     tv_dep.setText(txtFrom);
                     tv_arr.setText(txtTo);
                     tv_rp1.setText(txtStop1);
@@ -457,13 +433,11 @@ public class FlightActivity extends AppCompatActivity implements View.OnClickLis
                     tv_rp5.setText(txtStop5);
                     te_speed.setText(txtSpeed);
                     te_altitude.setText(txtAltitude);
-
                 }
                 break;
 
             default:
                 return;
-
         }
     }
 }

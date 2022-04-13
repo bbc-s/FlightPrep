@@ -233,7 +233,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
             latStop2 = Double.parseDouble(latlngStop2[0]);
             lngStop2 = Double.parseDouble(latlngStop2[1]);
             latlngStop2_1 = new LatLng(latStop2, lngStop2);
-
         }
 
         if (stop3 != null) {
@@ -241,7 +240,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
             latStop3 = Double.parseDouble(latlngStop3[0]);
             lngStop3 = Double.parseDouble(latlngStop3[1]);
             latlngStop3_1 = new LatLng(latStop3, lngStop3);
-
         }
 
         if (stop4 != null) {
@@ -249,7 +247,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
             latStop4 = Double.parseDouble(latlngStop4[0]);
             lngStop4 = Double.parseDouble(latlngStop4[1]);
             latlngStop4_1 = new LatLng(latStop4, lngStop4);
-
         }
 
         if (stop5 != null) {
@@ -257,7 +254,6 @@ public class MapsPrepActivity extends FragmentActivity implements OnMapReadyCall
             latStop5 = Double.parseDouble(latlngStop5[0]);
             lngStop5 = Double.parseDouble(latlngStop5[1]);
             latlngStop5_1 = new LatLng(latStop5, lngStop5);
-
         }
 
         if (to != null) {

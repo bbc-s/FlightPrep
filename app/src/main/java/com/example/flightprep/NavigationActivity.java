@@ -33,6 +33,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -94,6 +95,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     LatLng latlngFrom1, latlngTo1, latlngStop1_1, latlngStop2_1, latlngStop3_1, latlngStop4_1, latlngStop5_1;
     List<Double> stopArrayList = new ArrayList<>();
     List<LatLng> polylineArrayList = new ArrayList<>();
+    List<Location> bearingArrayList = new ArrayList<>();
+    List<Float> courseArrayList = new ArrayList<>();
     float fin = 0.0f;
     LatLng myLocation;
     Double myLatH = 0.0;
@@ -106,6 +109,17 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     LocationRequest locationRequest = new LocationRequest();
     LocationCallback locationCallBack;
     private GoogleMap navigationMap;
+    Location fromCourse = new Location("fromCourse");
+    Location stop1Course = new Location("stop1Course");
+    Location stop2Course = new Location("stop2Course");
+    Location stop3Course = new Location("stop3Course");
+    Location stop4Course = new Location("stop4Course");
+    Location stop5Course = new Location("stop5Course");
+    Location toCourse = new Location("toCourse");
+    float bearing = 0.0f;
+    float course = 0.0f;
+    Location knownBearing;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -464,6 +478,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         }
         navigationMap.setMyLocationEnabled(true);
 
+        getBearingData();
+
         addMarkers();
 
         addPolylinesPlan();
@@ -517,63 +533,190 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
+    private void getBearingData() {
+        fromCourse.setLatitude(latFrom);
+        fromCourse.setLongitude(lngFrom);
+        stop1Course.setLatitude(latStop1);
+        stop1Course.setLongitude(lngStop1);
+        stop2Course.setLatitude(latStop2);
+        stop2Course.setLongitude(lngStop2);
+        stop3Course.setLatitude(latStop3);
+        stop3Course.setLongitude(lngStop3);
+        stop4Course.setLatitude(latStop4);
+        stop4Course.setLongitude(lngStop4);
+        stop5Course.setLatitude(latStop5);
+        stop5Course.setLongitude(lngStop5);
+        toCourse.setLatitude(latTo);
+        toCourse.setLongitude(lngTo);
+
+        bearingArrayList.add(fromCourse);
+        bearingArrayList.add(stop1Course);
+        bearingArrayList.add(stop2Course);
+        bearingArrayList.add(stop3Course);
+        bearingArrayList.add(stop4Course);
+        bearingArrayList.add(stop5Course);
+        bearingArrayList.add(toCourse);
+
+        knownBearing = bearingArrayList.get(0);
+
+        for (int i = 0; i <= 6; i++) {
+            if (i+1 < bearingArrayList.size()) {
+                if (!String.valueOf(bearingArrayList.get(i)).contains("0.000000,0.000000")) {
+                    knownBearing = bearingArrayList.get(i);
+                }
+
+                if (!String.valueOf(bearingArrayList.get(i+1)).contains("0.000000,0.000000")) {
+                    bearing = (knownBearing).bearingTo((bearingArrayList.get(i+1)));
+
+                    if (bearing < 0.0f) {
+                        bearing = Math.abs(bearing);
+                        course = 360 - bearing;
+                    } else {
+                        course = bearing;
+                    }
+
+                    courseArrayList.add(course);
+
+                } else {
+                    courseArrayList.add(0.000000f);
+                }
+            }
+        }
+    }
+
     private void addMarkers() {
-        navigationMap.addMarker(new MarkerOptions()
+        Marker marker1;
+        Marker marker2 = null;
+        Marker marker3 = null;
+        Marker marker4 = null;
+        Marker marker5 = null;
+        Marker marker6 = null;
+        Marker marker7;
+
+        marker1 = navigationMap.addMarker(new MarkerOptions()
                 .position(latlngFrom1)
                 .icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-        navigationMap.addMarker(new MarkerOptions()
-                .position(latlngTo1)
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
         if (latlngStop1_1 != null) {
-            navigationMap.addMarker(new MarkerOptions()
+            marker2 = navigationMap.addMarker(new MarkerOptions()
                     .position(latlngStop1_1)
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
 
         if (latlngStop2_1 != null) {
-            navigationMap.addMarker(new MarkerOptions()
+            marker3 = navigationMap.addMarker(new MarkerOptions()
                     .position(latlngStop2_1)
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
 
         if (latlngStop3_1 != null) {
-            navigationMap.addMarker(new MarkerOptions()
+            marker4 = navigationMap.addMarker(new MarkerOptions()
                     .position(latlngStop3_1)
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
 
         if (latlngStop4_1 != null) {
-            navigationMap.addMarker(new MarkerOptions()
+            marker5 = navigationMap.addMarker(new MarkerOptions()
                     .position(latlngStop4_1)
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
 
         if (latlngStop5_1 != null) {
-            navigationMap.addMarker(new MarkerOptions()
+            marker6 = navigationMap.addMarker(new MarkerOptions()
                     .position(latlngStop5_1)
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
+
+        marker7 = navigationMap.addMarker(new MarkerOptions()
+                .position(latlngTo1)
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+
+        Marker[] marker = {marker1, marker2, marker3, marker4, marker5, marker6, marker7};
+
+        marker[0].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(0)) + "°");
+
+        if (marker[1] != null) {
+            marker[1].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(1)) + "°");
+        } else {
+            marker[0].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(1)) + "°");
+        }
+
+        for (int i = 2; i >= 0; i--) {
+            if (marker[2] != null) {
+                marker[2].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(2)) + "°");
+                break;
+            } else if (marker[1] != null) {
+                marker[1].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(2)) + "°");
+                break;
+            } else {
+                marker[0].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(2)) + "°");
+            }
+        }
+
+        for (int i = 3; i >= 0; i--) {
+            if (marker[3] != null) {
+                marker[3].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(3)) + "°");
+                break;
+            } else if (marker[2] != null) {
+                marker[2].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(3)) + "°");
+                break;
+            } else if (marker[1] != null) {
+                marker[1].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(3)) + "°");
+                break;
+            } else {
+                marker[0].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(3)) + "°");
+            }
+        }
+
+        for (int i = 4; i >= 0; i--) {
+            if (marker[4] != null) {
+                marker[4].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(4)) + "°");
+                break;
+            } else if (marker[3] != null) {
+                marker[3].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(4)) + "°");
+                break;
+            } else if (marker[2] != null) {
+                marker[2].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(4)) + "°");
+                break;
+            } else if (marker[1] != null) {
+                marker[1].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(4)) + "°");
+                break;
+            } else {
+                marker[0].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(4)) + "°");
+            }
+        }
+
+        for (int i = 5; i >= 0; i--) {
+            if (marker[5] != null) {
+                marker[5].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(5)) + "°");
+                break;
+            } else if (marker[4] != null) {
+                marker[4].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(5)) + "°");
+                break;
+            } else if (marker[3] != null) {
+                marker[3].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(5)) + "°");
+                break;
+            } else if (marker[2] != null) {
+                marker[2].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(5)) + "°");
+                break;
+            } else if (marker[1] != null) {
+                marker[1].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(5)) + "°");
+                break;
+            } else {
+                marker[0].setTitle("Course: " + String.format(Locale.ENGLISH, "%.2f", courseArrayList.get(5)) + "°");
+            }
+        }
     }
 
     private void addPolylinesPlan() {
-
-        Location test1 = new Location(String.valueOf(latlngFrom1));
-        Location test2 = new Location(String.valueOf(latlngTo1));
-
-        if(test1.hasBearing()) {
-            System.out.println("11111111111111111111 "+test1.getBearing());
-            System.out.println("22222222222222222222 "+test2.getBearing());
-        }
-
         PolylineOptions routeLine = new PolylineOptions();
 
         routeLine.add(latlngFrom1);
